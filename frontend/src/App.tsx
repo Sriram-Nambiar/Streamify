@@ -8,7 +8,7 @@ import { Signup } from "./screens/Signup";
 
 export function App() {
   return (
-    <div >
+    <div style={{ backgroundColor: "#0f0e0e", minHeight: "100vh", color: "white" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
