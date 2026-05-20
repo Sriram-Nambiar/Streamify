@@ -3,8 +3,9 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Home } from "./screens/Home";
 import { VideoPage } from "./screens/VideoPage";
-import { SignIn } from "./screens/Signin";
+import { SignIn } from "./screens/SignIn";
 import { Signup } from "./screens/Signup";
+import { Uploads } from "./screens/Uploads";
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/watch" element={<VideoPage />} />
+          <Route path="/uploads" element={<Uploads />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

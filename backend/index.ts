@@ -7,7 +7,14 @@ import { z } from "zod";
 
 const app = express();
 import cors from 'cors';
+import { password } from "bun";
 app.use(cors());
+const signupSchema = z.object({
+    username: z.string(),
+    password: z.string(),
+    gender: z.string(),
+    channelName: z.string()
+})
 const uploadSchema = z.object({
    
     videoUrl: z.url(),
@@ -27,21 +34,25 @@ function getUserId(req: express.Request): string | null {
     }   
 }
 
-app.get("/signup", async (req, res) => {
+app.post("/signup", async (req, res) => {
     const {username , password, gender, channelName} = req.body;
+    const parsedData = signupSchema.safeParse(req.body);
+    if (!parsedData.success) {
+        return res.status(400).json({message: "Invalid signup data"});
+    }
     const existingUser = await prisma.user.findFirst({
         where: {
-            username,
+            username: parsedData.data.username
         }
     });
     console.log("Connected to db");
     if(existingUser){
         return res.status(400).json({message: "User already exists"});
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
     const user = await prisma.user.create({
         data: {
-            username,
+            username: parsedData.data.username,
             password: hashedPassword,
             gender,
             channelName
@@ -51,7 +62,7 @@ app.get("/signup", async (req, res) => {
     res.json({message: "User created successfully", token});
 });
 
-app.get("/signin", async (req, res) => {
+app.post("/signin", async (req, res) => {
     const {username, password} = req.body;
     const user = await prisma.user.findFirst({
         where: {
