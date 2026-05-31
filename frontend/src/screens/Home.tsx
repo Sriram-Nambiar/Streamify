@@ -1,4 +1,6 @@
-import { Appbar } from "@/components/Appbar";
+import { Appbar } from "../components/Appbar";
+import {Sidebar} from "../components/Sidebar"
+import { VideoCard } from "@/components/VideoCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -13,35 +15,39 @@ export function Home() {
     });
   }, []);
 
-  return (
-    // 2. Added flexWrap so the videos wrap to the next line instead of squishing
-    <div style={{ display: "flex", padding: 0, flexWrap: "wrap", margin: 0 }}>
-       <div style={{width:"100vw"}}><Appbar /></div>
-      {videos.map((video: any) => (
-        <VideoCard 
-        href={`/watch?id=${video.id}`}
-          key={video.id}
-          // 3. Point these to the correct names from your database
-          imageUrl={video.thumbnail} 
-          title={video.title || "Untitled"} 
-          channelImage={video.user.profilePicture} 
-          channelName={video.user.username} 
-        />
-      ))}
+ return (
+  // 1. OUTERMOST CONTAINER: Stacks Appbar on top, and the rest below
+  <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    
+    {/* 2. APPBAR: Spans the full width at the very top */}
+    <Appbar />
+
+    {/* 3. MIDDLE SECTION: Flex row holding Sidebar and Videos side-by-side */}
+    <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      
+      {/* 4. SIDEBAR: Sits on the left. (Make sure your Sidebar component has a fixed width, e.g., width: "250px") */}
+      <Sidebar />
+
+      {/* 5. VIDEO AREA: 'flex: 1' makes it take up all remaining space on the right */}
+      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#121212" }}>
+        
+        {/* Your Flex grid for the actual video cards */}
+        <div style={{ display: "flex", flexWrap: "wrap", padding: "20px", gap: "15px" }}>
+          {videos.map((video: any) => (
+            <VideoCard
+              href={`/watch?id=${video.id}`}
+              key={video.id}
+              imageUrl={video.thumbnail}
+              title={video.title || "Untitled"}
+              channelImage={video.user?.profilePicture}
+            />
+          ))}
+        </div>
+
+      </div>
+      
     </div>
-  );
+  </div>
+);
 }
 
-function VideoCard({imageUrl, title, channelImage, channelName, href}: {imageUrl: string, title: string, channelImage: string, channelName: string, href?: string}) {
-  return (
-   
-    <div style={{ maxWidth: 300, borderRadius: 30, margin: 20, padding: 10 }} onClick={()=> window.location=href}>
-      <img src={imageUrl} style={{ display: "block", width: "100%",border: "1px solid #171515" }} />
-      <div style={{ marginTop: 10 , border: "1px solid #171515"}}>{title}</div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
-        <img src={channelImage} style={{ width: 30, height: 30, borderRadius: "50%", marginRight: 10 }} />
-        <span>{channelName}</span>
-      </div>
-    </div>
-  );
-}

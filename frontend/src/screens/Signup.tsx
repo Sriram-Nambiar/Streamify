@@ -1,14 +1,4 @@
-import axios from "axios";
-
-export function Signup() {
-  async function signup(){
-    await axios.post('http://localhost:3000/signup', {
-        username: document.getElementById("username")!.value,
-        password: document.getElementById("password")!.value,
-        gender: "male",
-        channelName: document.getElementById("channelname")!.value
-    }).then((res)=>{
-        localStorage.setItem("token", res.data.token);
+import axios from "axios"; export function Signup() { async function signup(){ await axios.post('http://localhost:3000/signup', { username: document.getElementById("username")!.value, password: document.getElementById("password")!.value, gender: "male", channelName: document.getElementById("channelname")!.value }).then((res)=>{ localStorage.setItem("token", res.data.token);
         window.location = "/signin";
     })
   }
