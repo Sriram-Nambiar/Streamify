@@ -32,7 +32,7 @@ export function Home() {
       <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#121212" }}>
         
         {/* Your Flex grid for the actual video cards */}
-        <div style={{ display: "flex", flexWrap: "wrap", padding: "20px", gap: "15px" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", padding: "20px", gap: "15px" , justifyContent: "space-evenly"}}>
           {videos.map((video: any) => (
             <VideoCard
               href={`/watch?id=${video.id}`}
