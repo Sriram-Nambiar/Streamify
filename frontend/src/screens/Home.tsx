@@ -29,7 +29,7 @@ export function Home() {
       <Sidebar />
 
       {/* 5. VIDEO AREA: 'flex: 1' makes it take up all remaining space on the right */}
-      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#121212" }}>
+      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#331631" }}>
         
         {/* Your Flex grid for the actual video cards */}
         <div style={{ display: "flex", flexWrap: "wrap", padding: "20px", gap: "15px" , justifyContent: "space-evenly"}}>
